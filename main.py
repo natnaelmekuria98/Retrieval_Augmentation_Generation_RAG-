@@ -18,7 +18,7 @@ from bs4 import BeautifulSoup
 
 # Assuming 'xml_content' contains your XML data
 
-from bs4 import BeautifulSoup
+import xml.etree.ElementTree as ET
 
 
 from langchain.document_loaders import UnstructuredURLLoader
