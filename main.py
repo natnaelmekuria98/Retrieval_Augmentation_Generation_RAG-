@@ -1,4 +1,5 @@
 import os
+from time import sleep
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -12,6 +13,15 @@ from langchain.prompts.chat import (ChatPromptTemplate,
 from langchain.text_splitter import CharacterTextSplitter
 #from langchain.vectorstores import Chroma
 from langchain.vectorstores import FAISS
+#import openai
+from bs4 import BeautifulSoup
+
+# Assuming 'xml_content' contains your XML data
+
+from bs4 import BeautifulSoup
+
+
+from langchain.document_loaders import UnstructuredURLLoader
 
 #from frontend import css, bot_template, user_template
 
@@ -42,7 +52,36 @@ def main():
         TEMP = st.slider("Temperature",0.0,1.0,0.5)
         st.subheader('Input your website URL, ask questions, and receive answers directly from the website.')
 
-    url = st.text_input("Insert The website URL")
+        # Pass the URLs and extract the data from these URLs
+    url=[
+         #'http://ethnologue.com/',
+         #'https://insight.derivation.co/',
+        'https://www.sil.org/',
+        'https://derivation.co/',
+        'https://www.sil.org/sitemap.xml?page=1',
+        'https://www.sil.org/sitemap.xml?page=2'
+        'https://derivation.co/sitemap-misc.xml',
+        'https://derivation.co/sitemap-pt-page-p1-2022-10.xml',
+        'https://derivation.co/sitemap-pt-page-p1-2022-09.xml',
+        'https://derivation.co/sitemap-pt-page-p1-2021-10.xml',
+        'https://derivation.co/sitemap-pt-page-p1-2021-09.xml',
+        'https://derivation.co/sitemap-pt-page-p1-2021-08.xml',
+        'https://derivation.co/sitemap.html',
+        'https://derivation.co/digitallanguagesupport/',
+        'https://derivation.co/digital-language-divide/',
+        'https://derivation.co/international-day-of-sign-languages-2022/',
+        'https://derivation.co/hindi-diwas/',
+        'https://derivation.co/engage/',
+        #'https://derivation.co/contact/',
+        'https://derivation.co/identification/',
+        'https://derivation.co/insight/',
+        'https://derivation.co/intelligence/',
+        #'https://derivation.co/about-us/',
+        'https://derivation.co/sample-page/'
+    ]
+  
+    #url = st.text_input("Insert The website URL")
+
 
     prompt = st.text_input("Write Your Question Here..")
     if st.button("Submit", type="primary"):
@@ -71,11 +110,13 @@ def main():
 
         )
 
-        # Create a retriever from the Chroma vector database
+        # Create a retriever from the FAISS vector database
         retriever = vectordb.as_retriever(search_kwargs={"k": 3})
 
         # Use a ChatOpenAI model
         llm = ChatOpenAI(model_name='gpt-3.5-turbo')
+        #llm = ChatOpenAI(model_name=MODEL)
+
         #MODEL = st.selectbox(label='Model', options=['gpt-3.5-turbo','text-davinci-003','text-davinci-002','code-davinci-002'])
 
         # Create a RetrievalQA from the model and retriever
@@ -84,6 +125,8 @@ def main():
         # Run the prompt and return the response
         response = qa(prompt)
         st.write(response)
+        # st.markdown("##Sources")
+        # st.markdown("\n ".join([f"- {x}" for x in url["sources"].split("\n")]))
 
 # if __name__ == '__main__':
 #     main()
