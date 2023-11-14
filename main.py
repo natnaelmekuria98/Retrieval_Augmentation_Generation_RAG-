@@ -50,7 +50,7 @@ def main():
         MODEL = st.selectbox(label='Model', options=['gpt-4','gpt-3.5-turbo','text-davinci-003','text-davinci-002','code-davinci-002'])
         PERSONALITY = st.selectbox(label='Personality', options=['general assistant','academic'])
         TEMP = st.slider("Temperature",0.0,1.0,0.5)
-        st.subheader('Input your website URL, ask questions, and receive answers directly from the website.')
+        st.subheader(' Ask questions, and receive answers directly from the Derivation and SIL website.')
 
         # Pass the URLs and extract the data from these URLs
     url=[
